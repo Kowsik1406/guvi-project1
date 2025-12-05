@@ -1,0 +1,43 @@
+#Deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guvi-react-app-deployment
+  labels:
+    app: guvi-app
+    env: testing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guvi-app
+  template:
+    metadata:
+      labels:
+        app: guvi-app
+    spec:
+      containers:
+        - name: guvi-react-app-container
+          image: public.ecr.aws/b5r3f5d2/guvi-proj-repo
+          ports:
+            - containerPort: 80
+
+---
+
+#service.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: guvi-react-app-service
+  labels:
+    app: guvi-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: guvi-app              # must match labels in Deployment’s podTemplate
+  ports:
+    - protocol: TCP
+      port: 80                 # external LB port (e.g. http port)
+      targetPort: 80           # matches containerPort in Deployment

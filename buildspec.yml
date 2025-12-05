@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Configuring kubectl"
+      - aws eks --region ap-south-1 update-kubeconfig --name guvi-eks-cluster
+      - ECR_IMAGE=public.ecr.aws/b5r3f5d2/guvi-proj-repo
+  build:
+    commands:
+      - echo "Deploying image to EKS"
+      - kubectl set image deployment/guvi-react-app-deployment guvi-react-app-container=$ECR_IMAGE --record
+      - kubectl rollout status deployment/guvi-react-app-deployment
