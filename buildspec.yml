@@ -1,13 +1,24 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo "Install kubectl"
+      - curl -LO https://amazon-eks.s3.amazonaws.com/1.29.0/2024-05-29/bin/linux/amd64/kubectl
+      - chmod +x kubectl && mv kubectl /usr/local/bin/
   pre_build:
     commands:
-      - echo "Configuring kubectl"
-      - aws eks --region ap-south-1 update-kubeconfig --name guvi-eks-cluster
-      - ECR_IMAGE=public.ecr.aws/b5r3f5d2/guvi-proj-repo
+      - echo "Login to ECR"
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com
+      - IMAGE_URI=<ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
+      - aws eks --region ap-south-1 update-kubeconfig --name brain-tasks-cluster
   build:
     commands:
-      - echo "Deploying image to EKS"
-      - kubectl set image deployment/guvi-react-app-deployment guvi-react-app-container=$ECR_IMAGE --record
-      - kubectl rollout status deployment/guvi-react-app-deployment
+      - docker build -t $IMAGE_URI .
+      - docker push $IMAGE_URI
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+      - kubectl set image deployment/brain-tasks-app-deployment brain-tasks-app-container=$IMAGE_URI
+  post_build:
+    commands:
+      - echo "Deployment complete"
