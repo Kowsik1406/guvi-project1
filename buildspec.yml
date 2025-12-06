@@ -10,7 +10,7 @@ phases:
     commands:
       - echo "Login to ECR"
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com
-      - IMAGE_URI=<ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
+      - IMAGE_URI=050451388377.dkr.ecr.ap-south-1.amazonaws.com/guvi-proj-repo:latest
       - aws eks --region ap-south-1 update-kubeconfig --name brain-tasks-cluster
   build:
     commands:
