@@ -9,7 +9,7 @@ phases:
   pre_build:
     commands:
       - echo "Logging in to Public ECR..."
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b5r3f5d2
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b5r3f5d2 || echo "Login failed"
       - IMAGE_URI=public.ecr.aws/b5r3f5d2/guvi-proj-repo:latest
       - echo "Updating kubeconfig for EKS cluster..."
       - aws eks --region ap-south-1 update-kubeconfig --name guvi-eks-cluster1
