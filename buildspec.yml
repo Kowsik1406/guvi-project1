@@ -3,13 +3,13 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing kubectl from Amazon Linux repo..."
-      - yum install -y curl unzip
-      - curl -o kubectl https://amazon-eks.s3.amazonaws.com/1.29.0/2024-05-29/bin/linux/amd64/kubectl
-      - chmod +x kubectl
-      - mv kubectl /usr/local/bin/
-      - kubectl version --client
-
+       - echo "Installing kubectl from AWS EKS S3..."
+       # Download kubectl binary directly; curl exists by default
+       - curl -o kubectl https://amazon-eks.s3.amazonaws.com/1.29.0/2024-05-29/bin/linux/amd64/kubectl
+       - chmod +x kubectl
+       - mv kubectl /usr/local/bin/
+       - kubectl version --client
+      
   pre_build:
     commands:
       - echo "Logging in to Public ECR..."
