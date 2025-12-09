@@ -6,7 +6,6 @@ metadata:
   name: guvi-react-app-deployment
   labels:
     app: guvi-app
-    env: testing
 spec:
   replicas: 1
   selector:
