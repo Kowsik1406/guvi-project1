@@ -5,7 +5,6 @@ phases:
     commands:
       - echo "Verifying kubectl..."
       - kubectl version --client
-
       
   pre_build:
     commands:
@@ -20,10 +19,6 @@ phases:
       - docker build -t $IMAGE_URI .
       - echo "Pushing Docker image to Public ECR..."
       - docker push $IMAGE_URI
-      - echo "Applying Kubernetes deployment and service..."
-      - kubectl apply -f app.yml
-      - echo "Updating deployment with new image..."
-      - kubectl set image deployment/guvi-app-deployment guvi-app-container=$IMAGE_URI
   post_build:
     commands:
       - echo "Deployment complete!"
