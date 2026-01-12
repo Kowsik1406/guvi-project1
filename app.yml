@@ -2,23 +2,25 @@
 
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: guvi-react-app-deployment
-  labels:
+metadata:                           #------>Used to identify and organize resources.
+  name: guvi-react-app-deployment   # name of the deployments 
+                                    #Used to reference this Deployment with kubectl commands.
+  labels:                           #Labels help in grouping, selecting, and managing resources.
     app: guvi-app
-spec:
-  replicas: 1
-  selector:
+spec:                               #Tells Kubernetes how the Deployment should behave.
+  replicas: 1                       #Number of Pod replicas to run.
+  selector:                         #Defines how the Deployment finds which Pods it manages.
     matchLabels:
-      app: guvi-app
-  template:
+      app: guvi-app                 #Links the Deployment to the Pods it controls.
+  template:                         #Template for creating Pods
     metadata:
-      labels:
-        app: guvi-app
-    spec:
-      containers:
+      labels:                       #Labels assigned to Pods
+        app: guvi-app               #Must match the selector so Deployment & Service can find Pods
+    spec:                           #Pod specification
+      containers:                   #List of containers inside the Pod.
+                                    # A Pod can run one or more containers.
         - name: guvi-react-app-container
-          image: public.ecr.aws/b5r3f5d2/guvi-proj-repo
+          image: public.ecr.aws/b5r3f5d2/brain_task_repo
           ports:
             - containerPort: 80
 
