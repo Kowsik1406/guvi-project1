@@ -10,7 +10,7 @@ phases:
     commands:
       - echo "Logging in to Public ECR..."
       - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b5r3f5d2 || echo "Login failed"
-      - public.ecr.aws/b5r3f5d2/brain_task_repo       # copy from aws ecr repository
+      - public.ecr.aws/b5r3f5d2/brain_task_repo       
   build:
     commands:
       - echo "Building Docker image..."
