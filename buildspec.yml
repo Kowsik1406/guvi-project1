@@ -15,7 +15,7 @@ phases:
       - echo "Building Docker image..."
       - docker build -t public.ecr.aws/b5r3f5d2/brain_task_repo .
       - echo "Pushing Docker image to Public ECR..."
-      - docker push public.ecr.aws/b5r3f5d2/brain_task_repo
+      - docker push public.ecr.aws/b5r3f5d2/brain_task_repo:latest
   post_build:
     commands:
       - echo "Deployment complete!"
